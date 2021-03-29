@@ -30,7 +30,9 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
         });
         connection.voice.setSelfDeaf(true);
 
-        const dispatcher = connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 })
+        const dispatcher = await connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 }).catch(err => {
+            console.log(err);
+        });
 
         dispatcher.on('start', () => {
             console.log(fileName + ' is now playing!');
