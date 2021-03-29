@@ -25,14 +25,11 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
     if (oldChannelID == null && newChannelID != null && user != 'Music Theme Bot' && exists) {
         console.log(user + " has joined voice channel with id " + newChannelID);
 
-        const connection = await channel.join().catch(err => {
-            console.log(err);
-        });
+        const connection = await channel.join();
+
         connection.voice.setSelfDeaf(true);
 
-        const dispatcher = await connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 }).catch(err => {
-            console.log(err);
-        });
+        const dispatcher = await connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 })
 
         dispatcher.on('start', () => {
             console.log(fileName + ' is now playing!');
