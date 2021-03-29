@@ -28,7 +28,8 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
         const connection = await channel.join();
         connection.voice.setSelfDeaf(true);
 
-        const dispatcher = connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 })
+        //const dispatcher = connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 })
+        const dispatcher = connection.play('https://www.youtube.com/watch?v=AtZ6u1ijqow');
 
         dispatcher.on('start', () => { // song start
             console.log(fileName + ' is now playing!');
