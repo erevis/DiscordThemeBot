@@ -10,6 +10,7 @@ Personalized theme music to play for users on server join.
 - Commands
 1) !tset 'youtube link' 'start time' 'end time'  
 Start time and end time are represented as time stamps, ex: 0:05 for 5 seconds.  
-Example: !tset https://www.youtube.com/watch?v=HaOmp140NvU 0:20 0:27  
+ 
+*Example: !tset https://www.youtube.com/watch?v=HaOmp140NvU 0:20 0:27* 
 2) !tset help  
 Gives useful help information and will explain the usage of commands to come.  
