@@ -34,12 +34,48 @@ client.on('message', msg => {
         return;
     }
 
-    if (msg.content.startsWith(prefix + 'tset' + " help")) {
+    if (msg.content.startsWith(prefix + "tset help")) {
         msg.reply("Try \"!tset 'youtube link' startTime endTime\". The start and end time should look like 0:00");
         return;
     }
 
-    if (msg.content.startsWith(prefix + 'tset ')) {
+    if (msg.content.startsWith(prefix + "tset enable")) {
+        msg.reply("Theme bot enabled 😄");
+        try {
+            pool.query(
+                'update users set enabled=?',
+                ['T'],
+                function(err, result) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                console.error(result);
+            });
+        } catch (err) {
+            console.error(err);
+        };
+    }
+
+    if (msg.content.startsWith(prefix + "tset disable")) {
+        msg.reply("Theme bot disabled 😢");
+        try {
+            pool.query(
+                'update users set enabled=?',
+                ['F'],
+                function(err, result) {
+                if (err) {
+                    console.error(err);
+                    return;
+                }
+                console.error(result);
+            });
+        } catch (err) {
+            console.error(err);
+        };
+    }
+
+    if (msg.content.startsWith(prefix + 'tset ') && !msg.content.startsWith(prefix + 'tset enable') && !msg.content.startsWith(prefix + 'tset disable')) {
         try {
             let command = msg.content.slice(prefix.length + 'tset'.length).trim();
             console.log(command);
@@ -62,7 +98,8 @@ client.on('message', msg => {
                 ID: sender,
                 Link: link,
                 Start: startSec,
-                Duration: duration
+                Duration: duration,
+                Enabled: 'T'
             };
     
             pool.query(
@@ -75,7 +112,6 @@ client.on('message', msg => {
                 }
                 console.error(result);
             });
-
             msg.reply("New theme set as " + link.substr(link.indexOf('.') + 1, link.length));
         } catch(err) {
             msg.reply("Looks like you messed that up. Try something like: !tset www.youtube.com/link 0:10 0:15")
@@ -101,29 +137,32 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
             const link = result[0][0].Link;
             const start = result[0][0].Start;
             const duration = result[0][0].Duration;
+            const enabled = result[0][0].Enabled;
 
-            const connection = await channel.join();
-            connection.voice.setSelfDeaf(true);
+            if (enabled == 'T') {
+                const connection = await channel.join();
+                connection.voice.setSelfDeaf(true);
 
-            const stream = ytdl(link, {
-                filter: "audioonly",
-                seek: start,
-                opusEncoded: true
-            });
+                const stream = ytdl(link, {
+                    filter: "audioonly",
+                    seek: start,
+                    opusEncoded: true
+                });
 
-            //const dispatcher = connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 })
-            const dispatcher = connection.play(stream, {type: 'opus', volume : 0.8})
+                //const dispatcher = connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 })
+                const dispatcher = connection.play(stream, {type: 'opus', volume : 0.8})
 
-            dispatcher.on('start', () => { // song start
-                console.log(user + ' is now playing a theme!');
-                clearTimeout(timeout);
+                dispatcher.on('start', () => { // song start
+                    console.log(user + ' is now playing a theme!');
+                    clearTimeout(timeout);
 
-                timeout = setTimeout(() => {
-                    channel.leave();
-                }, duration * 1000)
-            });
+                    timeout = setTimeout(() => {
+                        channel.leave();
+                    }, duration * 1000)
+                });
 
-            dispatcher.on('error', console.error); // song error
+                dispatcher.on('error', console.error); // song error
+            }
         } catch(err) {
             // console.error(err);
         }
