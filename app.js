@@ -41,10 +41,11 @@ client.on('message', msg => {
 
     if (msg.content.startsWith(prefix + "tset enable")) {
         msg.reply("Theme bot enabled 😄");
+        let id = msg.author.id;
         try {
             pool.query(
-                'update users set enabled=?',
-                ['T'],
+                'update users set enabled=? where id=?',
+                ['T', id],
                 function(err, result) {
                 if (err) {
                     console.error(err);
@@ -60,10 +61,11 @@ client.on('message', msg => {
 
     if (msg.content.startsWith(prefix + "tset disable")) {
         msg.reply("Theme bot disabled 😢");
+        let id = msg.author.id;
         try {
             pool.query(
-                'update users set enabled=?',
-                ['F'],
+                'update users set enabled=? where id=?',
+                ['F', id],
                 function(err, result) {
                 if (err) {
                     console.error(err);
