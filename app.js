@@ -52,6 +52,7 @@ client.on('message', msg => {
                 }
                 console.error(result);
             });
+            return;
         } catch (err) {
             console.error(err);
         };
@@ -70,12 +71,13 @@ client.on('message', msg => {
                 }
                 console.error(result);
             });
+            return;
         } catch (err) {
             console.error(err);
         };
     }
 
-    if (msg.content.startsWith(prefix + 'tset ') && !msg.content.startsWith(prefix + 'tset enable') && !msg.content.startsWith(prefix + 'tset disable')) {
+    if (msg.content.startsWith(prefix + 'tset ')) {
         try {
             let command = msg.content.slice(prefix.length + 'tset'.length).trim();
             console.log(command);
@@ -112,7 +114,7 @@ client.on('message', msg => {
                 }
                 console.error(result);
             });
-            msg.reply("New theme set as " + link.substr(link.indexOf('.') + 1, link.length));
+            msg.reply("New theme set as " + link.substr(link.indexOf('//') + 2, link.length));
         } catch(err) {
             msg.reply("Looks like you messed that up. Try something like: !tset www.youtube.com/link 0:10 0:15")
         }
