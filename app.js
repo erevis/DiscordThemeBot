@@ -27,61 +27,46 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     const prefix = '!';
-    if (!msg.content.startsWith(prefix)) return;
+    if (!msg.content.startsWith(prefix + 't')) return;
 
-    if (msg.content == (prefix + 'tset')) {
-        msg.reply("Get command help with !tset help");
+    if (msg.content.startsWith(prefix + "t help")) {
+        msg.reply("Try \"!t set 'youtube link' startTime endTime\". The start and end time should look like 0:00");
         return;
     }
 
-    if (msg.content.startsWith(prefix + "tset help")) {
-        msg.reply("Try \"!tset 'youtube link' startTime endTime\". The start and end time should look like 0:00");
-        return;
-    }
-
-    if (msg.content.startsWith(prefix + "tset enable")) {
+    if (msg.content.startsWith(prefix + "t enable")) {
         msg.reply("Theme bot enabled 😄");
         let id = msg.author.id;
         try {
             pool.query(
                 'update users set enabled=? where id=?',
-                ['T', id],
-                function(err, result) {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                console.error(result);
-            });
+                ['T', id]
+            );
             return;
         } catch (err) {
             console.error(err);
+            return;
         };
     }
 
-    if (msg.content.startsWith(prefix + "tset disable")) {
+    if (msg.content.startsWith(prefix + "t disable")) {
         msg.reply("Theme bot disabled 😢");
         let id = msg.author.id;
         try {
             pool.query(
                 'update users set enabled=? where id=?',
-                ['F', id],
-                function(err, result) {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                console.error(result);
-            });
+                ['F', id]
+            );
             return;
         } catch (err) {
             console.error(err);
+            return;
         };
     }
 
-    if (msg.content.startsWith(prefix + 'tset ')) {
+    if (msg.content.startsWith(prefix + 't set ')) {
         try {
-            let command = msg.content.slice(prefix.length + 'tset'.length).trim();
+            let command = msg.content.slice(prefix.length + 't set'.length).trim();
             console.log(command);
     
             const sender = msg.author.id;
@@ -117,10 +102,15 @@ client.on('message', msg => {
                 console.error(result);
             });
             msg.reply("New theme set as " + link.substr(link.indexOf('//') + 2, link.length));
+            return;
         } catch(err) {
-            msg.reply("Looks like you messed that up. Try something like: !tset www.youtube.com/link 0:10 0:15")
+            msg.reply("Looks like you messed that up. Try something like: !t set www.youtube.com/link 0:10 0:15")
+            return;
         }
     }
+    // Unknown command
+    msg.reply("Get command help with !t help");
+    return;
 })
 
 client.on('voiceStateUpdate', async (oldState, newState) => {
@@ -165,7 +155,10 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
                     }, duration * 1000)
                 });
 
-                dispatcher.on('error', console.error); // song error
+                dispatcher.on('error', () => { // song error
+                    console.error;
+                    channel.leave();
+                });
             }
         } catch(err) {
             // console.error(err);
