@@ -27,7 +27,7 @@ client.on('ready', () => {
 
 client.on('message', msg => {
     const prefix = '!';
-    if (!msg.content.startsWith(prefix + 't')) return;
+    if (!msg.content.startsWith(prefix + 't ')) return;
 
     if (msg.content.startsWith(prefix + "t help")) {
         msg.reply("Try \"!t set 'youtube link' startTime endTime\". The start and end time should look like 0:00");
