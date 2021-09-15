@@ -108,6 +108,47 @@ client.on('message', msg => {
             return;
         }
     }
+
+    /** TEMP SONG FEATURE AFTER GROOVY BOT / RHYTHM BOT DEATH */
+    if (msg.content.startsWith(prefix + 't play ')) {
+        try {
+            let command = msg.content.slice(prefix.length + 't set'.length).trim();
+            console.log(command);
+    
+            const sender = msg.author.id;
+            const link = command.split(' ')[0];
+            
+            try {
+                const connection = await channel.join();
+                connection.voice.setSelfDeaf(true);
+
+                const stream = ytdl(link, {
+                    filter: "audioonly",
+                    seek: start,
+                    opusEncoded: true
+                });
+
+                //const dispatcher = connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 })
+                const dispatcher = connection.play(stream, {type: 'opus', volume : 0.8})
+
+                dispatcher.on('start', () => { // song start
+                    console.log(user + ' is now playing a song!');
+                });
+
+                dispatcher.on('error', () => { // song error
+                    console.error;
+                    channel.leave();
+                });
+            } catch(err) {
+                // console.error(err);
+            }
+            
+        } catch(err) {
+            msg.reply("Looks like you messed that up. Play a song on youtube with !t play *link*")
+            return;
+        }
+    }
+
     // Unknown command
     msg.reply("Get command help with !t help");
     return;
