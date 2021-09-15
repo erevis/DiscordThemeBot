@@ -17,6 +17,6 @@
     "ffmpeg-static": "^4.2.8",
     "mysql2": "^2.2.5",
     "node-opus": "^0.3.3",
-    "ytdl-core": "^4.9.0"
+    "ytdl-core": "^4.9.1"
   }
 }
