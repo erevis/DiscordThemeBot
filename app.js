@@ -119,7 +119,7 @@ client.on('message', msg => {
             const link = command.split(' ')[0];
             
             try {
-                const connection = await channel.join();
+                const connection = channel.join();
                 connection.voice.setSelfDeaf(true);
 
                 const stream = ytdl(link, {
