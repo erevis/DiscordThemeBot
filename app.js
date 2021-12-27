@@ -1,6 +1,5 @@
 require('dotenv').config();
 const Discord = require('discord.js');
-const { link } = require('ffmpeg-static');
 const client = new Discord.Client();  
 
 // DATABASE CONNECTION
@@ -30,7 +29,7 @@ client.on('message', msg => {
     if (!msg.content.startsWith(prefix + 't ')) return;
 
     if (msg.content.startsWith(prefix + "t help")) {
-        msg.reply("Try \"!t set 'youtube link' startTime endTime\". The start and end time should look like 0:00");
+        msg.reply("\n- \"!t set 'youtube link' 0:10 0:15\" (startTime and endTime)\n- \"!t enable/disable\"\n");
         return;
     }
 
@@ -146,7 +145,6 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
                     opusEncoded: true
                 });
 
-                //const dispatcher = connection.play(require("path").join(__dirname, './Sounds/' + fileName), { volume : 0.8 })
                 const dispatcher = connection.play(stream, {type: 'opus', volume : 0.8})
 
                 dispatcher.on('start', () => { // song start
