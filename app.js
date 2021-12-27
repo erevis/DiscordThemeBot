@@ -138,6 +138,8 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
                 const connection = await channel.join();
                 connection.voice.setSelfDeaf(true);
 
+                console.log("Music Theme Bot has joined " + channel)
+
                 const stream = ytdl(link, {
                     filter: "audioonly",
                     seek: start,
@@ -162,12 +164,12 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
                 });
             }
         } catch(err) {
-            // console.error(err);
+            console.error(err);
         }
     } else if (newChannelID == null && user != 'Music Theme Bot') {
         console.log(user + " has left voice channel with id " + oldChannelID);
     } else {
-        console.log(user + " muted or switched channels");
+        // console.log(user + " muted or switched channels");
     };
 });
 
@@ -184,6 +186,9 @@ let convertTime = function(time) {
 async function getLink(id) {
     const dbconnection = await pool.getConnection();
     await dbconnection.beginTransaction();
+
+    console.log("Fetching youtube link...")
+
     try {
         const link = await dbconnection.execute('select * from users where id = ?',
         [id]);
@@ -192,6 +197,7 @@ async function getLink(id) {
     } catch (err) {
         console.error(err);
     } finally {
+        console.log("Link found")
         dbconnection.release();
     }
 }
