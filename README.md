@@ -1,5 +1,5 @@
 # DiscordThemeBot
-Personalized theme music to play for users on server join.
+Discord bot that plays personalized theme music for users on server join.
 
 *Made with javascript, node.js, discord.js, and a MySQL database for storing youtube links.*
 
