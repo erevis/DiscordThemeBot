@@ -145,6 +145,8 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
                     opusEncoded: true
                 });
 
+                console.log(stream);
+
                 const dispatcher = connection.play(stream, {type: 'opus', volume : 0.8})
 
                 dispatcher.on('start', () => { // song start
