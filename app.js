@@ -1,6 +1,6 @@
 require('dotenv').config();
 const Discord = require('discord.js');
-const client = new Discord.Client();  
+const client = new Discord.Client();
 
 // DATABASE CONNECTION
 
@@ -75,12 +75,12 @@ client.on('message', msg => {
         try {
             let command = msg.content.slice(prefix.length + 't set'.length).trim();
             console.log(command);
-    
+
             const sender = msg.author.id;
             const link = command.split(' ')[0];
             const start = command.split(' ')[1];
             const end = command.split(' ')[2];
-    
+
             const startSec = convertTime(start);
             const endSec = convertTime(end);
             const duration = endSec - startSec;
@@ -89,7 +89,7 @@ client.on('message', msg => {
                 msg.reply("Theme clips can't be longer than 10 seconds");
                 return;
             }
-    
+
             let user = {
                 ID: sender,
                 Link: link,
@@ -97,7 +97,7 @@ client.on('message', msg => {
                 Duration: duration,
                 Enabled: 'T'
             };
-    
+
             pool.query(
                 'insert into users set ? on duplicate key update ?',
                 [user, user],
@@ -177,13 +177,14 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
                     }, duration * 1000)
                 });
 
-                dispatcher.on('error', () => { // song error
-                    console.error("Song link not found");
+                dispatcher.on('error', e => { // song error
+                    console.error("Song link not found: ");
+                    console.log(e);
                     if (alerted != 'T') {
                         const embed = embedTmp
                             .setDescription("> Uh oh! Your discord music bot link couldn't be found. 😢\n> The link may have been deleted.");
                         user.send(embed);
-                        
+
                         pool.query(
                             'update users set alerted=? where id=?',
                             ['T', user.id],
