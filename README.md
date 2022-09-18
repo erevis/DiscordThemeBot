@@ -8,15 +8,15 @@ Discord bot that plays personalized theme music for users on server join.
 - Bot automatically joins voice channel on user entry and plays theme music, leaving after the specified song time frame.
 
 ## How to use
-- Slash Commands
-1) /set 'youtube link' 'start time' 'end time'  
-Start time and end time are represented as time stamps, ex: 0:05 for 5 seconds.  
-*Example: !t set https://www.youtube.com/watch?v=HaOmp140NvU 0:20 0:27*  
-2) /enable
+- Slash Commands 
+1) /set 'youtube link' 'start time' 'end time' 
+Start time and end time are represented as time stamps, ex: 0:05 for 5 seconds. 
+*Example: !t set https://www.youtube.com/watch?v=HaOmp140NvU 0:20 0:27* 
+2) /enable 
 Enables the bot for your server joins
-3) /disable  
+3) /disable 
 Disables the bot for your server joins
-3) /help
+3) /help 
 Gives an overview of these basic commands and their arguments.
 
 ## TODO
