@@ -3,8 +3,6 @@ Discord bot that plays personalized theme music for users on server join.
 
 *Made with javascript, node.js, discord.js, and a MySQL database for storing youtube links.*
 
-* Please read the v2.0 release information to find specific descriptions of recent improvements and modifications to the bot.
-
 - Features commands to set theme music by youtube link and time stamps.
 - Ability to enable/disable the bot for specific users.
 - Bot automatically joins voice channel on user entry and plays theme music, leaving after the specified song time frame.
@@ -24,3 +22,5 @@ Gives an overview of these basic commands and their arguments.
 ## TODO
 - [ ] Integrate buttons that allow you to copy other people's themes. Maybe people can post theme suggestions/presets.
 - [ ] Write up a process for using this bot in a discord channel of your own.
+
+* Please read the v2.0 release information to find specific descriptions of recent improvements and modifications to the bot.
