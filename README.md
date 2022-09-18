@@ -23,4 +23,4 @@ Gives an overview of these basic commands and their arguments.
 - [ ] Integrate buttons that allow you to copy other people's themes. Maybe people can post theme suggestions/presets.
 - [ ] Write up a process for using this bot in a discord channel of your own.
 
-* Please read the v2.0 release information to find specific descriptions of recent improvements and modifications to the bot.
+*Please read the v2.0 release information to find specific descriptions of recent improvements and modifications to the bot.
