@@ -95,12 +95,24 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
             const alerted = result[0][0].Alerted
 
             if (enabled == 'T') {
-                const stream = ytdl(link, {
-                    filter: "audioonly",
-                    seek: start,
-                    opusEncoded: true
-                });
+                let stream;
 
+                try {
+                    stream = ytdl(link, {
+                        filter: "audioonly",
+                        seek: start,
+                        opusEncoded: true,
+                        requestOptions: {
+                            headers: {
+                                cookie: process.env.CS,
+                                'x-youtube-identity-token': process.env.ID_TOKEN
+                            }
+                        }
+                    });
+                } catch(err) {
+                    console.error(err)
+                }
+                
                 const connection = await connectToChannel(channel);
                 const subscription = connection.subscribe(player);
 
@@ -132,7 +144,7 @@ client.on('voiceStateUpdate', async (oldState, newState) => {
                 // );
             }
         } catch(err) {
-            console.error(err);
+            //console.error(err);
         }
     } else if (newChannelID == null) {
         // console.log(username + " has left voice channel " + oldChannelID);
